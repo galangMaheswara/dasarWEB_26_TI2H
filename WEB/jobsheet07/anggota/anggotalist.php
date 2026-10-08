@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SIMPUS-Mini | Daftar Anggota</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body>
+    <header>
+        <h1>SIMPUS-Mini</h1>
+        <button type="button" id="nav-toggle-btn" class="nav-toggle-label" aria-label="Menu">&#9776;</button>
+        <nav>
+            <ul>
+                <li><a href="../index.php">Beranda</a></li>
+                <li><a href="../buku/bukulist.php">Daftar Buku</a></li>
+                <li><a href="../buku/bukutambah.php">Tambah Buku</a></li>
+                <li><a href="anggotalist.php">Daftar Anggota</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Daftar Anggota</h2>
+            <div class="search-box">
+                <label for="search-input">Cari Nama Anggota</label>
+                <input type="text" id="search-input" placeholder="Ketik nama anggota...">
+            </div>
+            
+            <p id="table-counter" style="margin-bottom: 0.75rem; font-size: 0.9rem; color: #555;"></p>
+            
+            <!-- Indikator Loading untuk Jobsheet 6 -->
+            <p id="loading-indicator" style="display: none; color: #666; font-style: italic; margin-bottom: 1rem;">Memuat data anggota...</p>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No. Anggota</th>
+                            <th>Nama</th>
+                            <th>Alamat</th>
+                            <th>No. HP</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dikosongkan: data akan dimuat otomatis dari data/anggota.json lewat anggota.js -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 SIMPUS-Mini &mdash; Jobsheet 6</p>
+    </footer>
+
+    <!-- Skrip khusus pemuat data anggota dipanggil sebelum app.js -->
+    <script src="../assets/js/anggota.js"></script>
+    <script src="../assets/js/app.js"></script>
+</body>
+
+</html>
