@@ -9,7 +9,7 @@ function initNavToggle() {
     });
 }
 
-function updateTableCounter() {//hitung tabel
+function updateTableCounter() {
     const counterEl = document.getElementById("table-counter");
     const table = document.querySelector(".table-responsive table");
     if (!counterEl || !table) return;
@@ -27,22 +27,18 @@ function updateTableCounter() {//hitung tabel
     counterEl.textContent = `Menampilkan ${visibleCount} dari ${totalData} data`;
 }
 
-// Tombol Hapus kini berada di dalam <form class="form-hapus" method="post">
-// yang benar-benar mengirim request DELETE ke server (buku/hapus.php,
-// anggota/hapus.php). Konfirmasi dilakukan pada event "submit" agar bisa
-// dibatalkan (preventDefault) sebelum request terkirim.
 function initHapusConfirm() {
-  document.addEventListener("submit", function (e) {
-    const form = e.target;
-    if (!form.classList.contains("form-hapus")) return;
+    document.addEventListener("submit", function (e) {
+        const form = e.target;
+        if (!form.classList.contains("form-hapus")) return;
 
-    const row = form.closest("tr");
-    const nama = row ? row.querySelector("td")?.textContent : "data ini";
-    const yakin = confirm('Yakin ingin menghapus "' + nama + '"?');
-    if (!yakin) {
-      e.preventDefault();
-    }
-  });
+        const row = form.closest("tr");
+        const nama = row ? row.querySelector("td")?.textContent : "data ini";
+        const yakin = confirm('Yakin ingin menghapus "' + nama + '"?');
+        if (!yakin) {
+            e.preventDefault();
+        }
+    });
 }
 
 // ===== Filter/pencarian tabel real-time =====
@@ -56,11 +52,8 @@ function initTableFilter() {
         const keyword = input.value.toLowerCase();
         const rows = table.querySelectorAll("tbody tr");
         rows.forEach(function (row) {
-            // Mengambil sel <td> pertama saja (Judul Buku / Nama Anggota)
             const firstCell = row.querySelector("td");
             const teks = firstCell ? firstCell.textContent.toLowerCase() : "";
-
-            // Cocokkan keyword hanya dengan isi kolom pertama
             row.style.display = teks.includes(keyword) ? "" : "none";
         });
         updateTableCounter();
@@ -90,7 +83,6 @@ function initValidasiForm() {
     form.addEventListener("submit", function (e) {
         let valid = true;
 
-        // 1. Refactor: Daftar field yang WAJIB diisi (string tidak boleh kosong)
         const requiredFields = ["judul", "nama", "pengarang", "email", "telepon"];
 
         requiredFields.forEach(function (fieldName) {
@@ -105,7 +97,6 @@ function initValidasiForm() {
             }
         });
 
-        // 2. Validasi Tahun (Rentang 1900 - 2026)
         const tahun = form.querySelector("[name='tahun']");
         if (tahun) {
             const nilai = parseInt(tahun.value, 10);
@@ -117,7 +108,6 @@ function initValidasiForm() {
             }
         }
 
-        // 3. Validasi Stok (Tidak boleh negatif)
         const stok = form.querySelector("[name='stok']");
         if (stok) {
             const nilaiStok = parseInt(stok.value, 10);
@@ -129,7 +119,6 @@ function initValidasiForm() {
             }
         }
 
-        // 4. Validasi ISBN (Harus mengandung angka DAN tanda hubung '-')
         const isbn = form.querySelector("[name='isbn']");
         if (isbn && isbn.value.trim() !== "") {
             const patternISBN = /^(?=.*-)[0-9-]+$/;
@@ -143,9 +132,23 @@ function initValidasiForm() {
             hapusError(isbn);
         }
 
-        // Hentikan submit jika ada field yang invalid
         if (!valid) {
             e.preventDefault();
+        }
+    });
+}
+
+// ===== Mencegah klik ganda (double submit) pada semua form POST =====
+function initPreventDoubleSubmit() {
+    document.addEventListener("submit", function (e) {
+        if (e.defaultPrevented) return;
+        const form = e.target;
+        if (form.method.toLowerCase() !== "post") return;
+
+        const btn = form.querySelector("button[type='submit']");
+        if (btn) {
+            btn.disabled = true;
+            btn.textContent = "Memproses...";
         }
     });
 }
@@ -155,4 +158,5 @@ document.addEventListener("DOMContentLoaded", function () {
     initHapusConfirm();
     initTableFilter();
     initValidasiForm();
+    initPreventDoubleSubmit();
 });
