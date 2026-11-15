@@ -49,7 +49,7 @@ try {
     ]);
 
     $_SESSION['flash'] = ['type' => 'success', 'pesan' => 'Buku berhasil ditambahkan.'];
-    header('Location: list.php');
+    header('Location: bukulist.php');
     exit;
 } catch (PDOException $e) {
     error_log('[SIMPUS] ' . $e->getMessage());
